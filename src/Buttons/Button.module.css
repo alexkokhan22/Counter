@@ -1,24 +1,26 @@
 
-.inc {
+.button{
     background-color: #61dafb;
     border: 2px solid black;
     width: 60px;
-
+    padding: 5px;
+    margin: 10px;
 }
 
-.reset {
-    background-color: #61dafb;
-    border: 2px solid black;
-    width: 60px;
-}
 
-.button {
+
+.buttons {
     display: inline-block;
-    border: 10px solid black;
-    width: 200px;
-    height: 50px;
+    padding: 5px;
+    border: 5px solid black;
     background-color: #61dafb;
-    margin-right: 116px;
     margin-top: 5px;
+    width: 90px;
+    height: 50px;
+    margin-right: 60px;
+    margin-left: -55px;
+
+
 }
+
 

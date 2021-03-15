@@ -19,20 +19,17 @@ export function DisplaySettings(props: DisplaySettingsType) {
         props.onChangeStartValue(Number(e.currentTarget.value))
     }
 
-    let onClickSet = () => props.set()
 
-    let setDisplay = () => {props.setDisplay()}
+    let setDisplay = () => {
+        props.setDisplay()
+    }
 
     return (
         <div className={s.span}>
-            <span>Max</span>
-            <input type="number" value={props.maxValue} onChange={onChangeMax} onClick={setDisplay}/>
-            <span>Start</span>
-            <input type="number" value={props.startValue} onChange={onChangeMin} onClick={setDisplay}/>
-
-            <div className={s.button} >
-                <button className={s.set} onClick={onClickSet}>set</button>
-            </div>
+            <span className={s.spanText}>Max</span>
+            <input type="number" value={props.maxValue} onChange={onChangeMax} onClick={setDisplay} className={s.input}/>
+            <span className={s.spanText}>Start</span>
+            <input type="number" value={props.startValue} onChange={onChangeMin} onClick={setDisplay} className={s.input}/>
         </div>
     )
 }
