@@ -1,19 +1,38 @@
-import React, {useEffect, useState} from 'react';
 import './App.css';
 import {CounterDisplay} from "./CounterDisplay/CounterDisplay";
 import {DisplaySettings} from "./DisplaySettings/DisplaySettings";
 import {Buttons} from "./Buttons/Buttons";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootState} from "./redux/store";
+import {
+    incAC,
+    onChangeMaxValueAC,
+    onChangeStartValueAC,
+    resetAC,
+    setAC,
+    setDisplayAC,
+    statePropsType
+} from "./redux/counter-reducer";
 
 function App() {
-    let [count, setCount] = useState<number>(0)
+
+    const counter = useSelector<AppRootState, statePropsType>(state => state.counter)
+    const dispatch = useDispatch()
+    let disabledSet = counter.startValue < 0
+        || counter.maxValue > 99
+        || counter.maxValue === counter.startValue
+        || counter.maxValue < counter.startValue
+
+    {/* let [count, setCount] = useState<number>(0)
     let [count1, setCount1] = useState<string>('')
     let [maxValue, setMaxValue] = useState<number>(0)
     let [startValue, setStartValue] = useState<number>(0)
     let [editMode, setEditMode] = useState<boolean>(true)
-    let disabledSet = startValue < 0 || maxValue > 99 || maxValue === startValue || maxValue < startValue
+    */
+    }
 
 
-    useEffect(() => {
+    {/* useEffect(() => {
         let valueASString = localStorage.getItem('startValue')
         if (valueASString) {
             let newValue = JSON.parse(valueASString)
@@ -33,62 +52,56 @@ function App() {
     }, [])
     useEffect(() => {
         localStorage.setItem('Value', JSON.stringify(maxValue))
-    }, [maxValue])
+    }, [maxValue])*/
+    }
 
 
     const onChangeMaxValue = (value: number) => {
-        setMaxValue(value)
+        const action = onChangeMaxValueAC(value)
+        dispatch(action)
     }
 
     const onChangeStartValue = (value: number) => {
-        setStartValue(value)
+        const action = onChangeStartValueAC(value)
+        dispatch(action)
     }
 
     function inc() {
-        if (count < maxValue) {
-            setCount(count + 1)
-        }
+        const action = incAC()
+        dispatch(action)
     }
 
     function reset() {
-        setCount(startValue)
-        setEditMode(true)
+        const action = resetAC()
+        dispatch(action)
     }
 
     const set = () => {
-        setEditMode(false)
-        setCount(startValue)
+        const action = setAC()
+        dispatch(action)
     }
 
     function setDisplay() {
-        if (startValue < 0) {
-            setCount1('incorrect value!')
-        } else if (maxValue > 99 || maxValue < 0) {
-            setCount1('incorrect value!')
-        } else if (startValue === maxValue) {
-            setCount1('incorrect value!')
-        } else if (startValue > maxValue) {
-            setCount1('incorrect value!')
-        } else {
-            setCount1('enter values and press "set"')
-        }
+        const action = setDisplayAC()
+        dispatch(action)
+
     }
 
 
     return (
         <div className="App">
             <CounterDisplay
-                count={count}
-                startValue={startValue}
-                maxValue={maxValue} count1={count1}
-                editMode={editMode}/>
-            <Buttons onClick={inc} title={'inc'} disabled={count === maxValue ? true : false}/>
+                count={counter.countNumber}
+                startValue={counter.startValue}
+                maxValue={counter.maxValue} count1={counter.countString}
+                editMode={counter.editMode}/>
+            <Buttons onClick={inc} title={'inc'} disabled={counter.countNumber === counter.maxValue ? true : false}/>
             <Buttons onClick={reset} title={'reset'} disabled={false}/>
 
 
             <DisplaySettings
-                maxValue={maxValue}
-                startValue={startValue}
+                maxValue={counter.maxValue}
+                startValue={counter.startValue}
                 onChangeMaxValue={onChangeMaxValue}
                 onChangeStartValue={onChangeStartValue}
                 set={set}
